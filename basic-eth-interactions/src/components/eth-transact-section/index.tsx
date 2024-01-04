@@ -56,13 +56,13 @@ function EthTransactSection({ title, info, actionCallback }: Props) {
 					{isPending && <p className="mb-2 text-gray-900">Pending ....</p>}
 
 					{!isPending && !error && !!data && (
-						<pre className="bg-gray-900 p-3 text-white">
+						<pre className="max-h-[800px] overflow-auto bg-gray-900 p-3 text-white">
 							<code>{JSON.stringify(data, customFormatter, 2)}</code>
 						</pre>
 					)}
 
 					{error && (
-						<pre className="bg-red-500 p-3 text-white">
+						<pre className="max-h-[800px] overflow-auto bg-red-500 p-3 text-white">
 							<code>{JSON.stringify(error, customFormatter, 2)}</code>
 						</pre>
 					)}
