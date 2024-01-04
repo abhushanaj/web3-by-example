@@ -1,30 +1,11 @@
-# React + TypeScript + Vite
+# Ethereum Chain Interactions with VieM Library
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This example project demonstrates how to interact with the Ethereum blockchain using the [Viem](https://viem.sh/) library.
 
-Currently, two official plugins are available:
+Viem is a lightweight and easy-to-use library for Ethereum interactions, providing a convenient way to interact with smart contracts, send transactions, and retrieve information from the Ethereum blockchain.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The example shows how to use the injected provider [Metamask](https://docs.metamask.io/) as the transport layer.
 
-## Expanding the ESLint configuration
+All providers meets the proposal mentioned on [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-	// other rules...
-	parserOptions: {
-		ecmaVersion: 'latest',
-		sourceType: 'module',
-		project: ['./tsconfig.json', './tsconfig.node.json'],
-		tsconfigRootDir: __dirname
-	}
-};
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+![Screenshot 2024-01-04 133129](https://github.com/abhu-A-J/web3-by-example/assets/49617450/0c270174-8cfd-40a0-b065-7bbf8fd07aea)
