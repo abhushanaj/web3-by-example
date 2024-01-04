@@ -1,4 +1,4 @@
-import { createPublicClient, custom } from 'viem';
+import { createPublicClient, custom, formatEther } from 'viem';
 import { sepolia } from 'viem/chains';
 
 import Footer from '@/components/footer';
@@ -28,16 +28,35 @@ function App() {
 		};
 	}
 
+	async function getAccountDetails() {
+		const balance = await client.getBalance({
+			address: '0xB999d4f182997141a42B6764660C61AeD197B59c'
+		});
+		return {
+			balance,
+			'balance (ETH)': `${formatEther(balance)}`,
+			transactionCount: await client.getTransactionCount({
+				address: '0xB999d4f182997141a42B6764660C61AeD197B59c'
+			})
+		};
+	}
+
 	return (
 		<>
 			<main className="pt-10">
-				<h1 className="mb-8 text-3xl font-bold text-neutral-900">Basic interactions with chain</h1>
+				<h1 className="mb-8 text-3xl font-bold text-neutral-900">Basic interactions with chain 🚀 </h1>
 
 				{/* Getting the block Detials */}
 				<EthTransactSection
-					title="Getting Block Details"
+					title="Block Details"
 					info="Get the current block details of the connected chain"
 					actionCallback={getBlockDetails}
+				/>
+
+				<EthTransactSection
+					title="Account Details of 0xB999d4f182997141a42B6764660C61AeD197B59c"
+					info="Get the account details like balance and total transactions done"
+					actionCallback={getAccountDetails}
 				/>
 			</main>
 
