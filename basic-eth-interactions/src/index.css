@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--body-space-left: max(20px, env(safe-area-inset-left));
+	--body-space-right: max(20px, env(safe-area-inset-right));
+	--body-space-bottom: env(safe-area-inset-bottom);
+
+	--page-height: 100vh;
+	--page-width: 1230px;
+	--primary-content-width: 768px;
+	--footer-height: 50px;
+}
+
+main {
+	max-width: var(--primary-content-width);
+	padding-left: var(--body-space-left);
+	padding-right: var(--body-space-left);
+	margin: 0 auto;
+	min-height: calc(var(--page-height) - var(--footer-height));
+}
