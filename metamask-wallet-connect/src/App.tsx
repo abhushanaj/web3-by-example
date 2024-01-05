@@ -1,6 +1,8 @@
 import Footer from '@/components/footer';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+
 import ViemMetamaskWalletConnect from '@/components/viem-metamask-connect';
+import EthersMetamasWalletConnect from '@/components/ethers-metamask-connect';
 
 function App() {
 	useDocumentTitle('React Starter');
@@ -13,6 +15,11 @@ function App() {
 				{/* Using Viem Client */}
 				<section className=" border-b-2 border-slate-200 py-2">
 					<ViemMetamaskWalletConnect />
+				</section>
+
+				{/* Using Ethers Client */}
+				<section className=" border-b-2 border-slate-200 py-2">
+					<EthersMetamasWalletConnect />
 				</section>
 			</main>
 
