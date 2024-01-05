@@ -1,30 +1,7 @@
-# React + TypeScript + Vite
+# Chain Switching on Network
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This example cover possible way to handle chain switching on your dapp. Read more in [EIP-3326](https://eips.ethereum.org/EIPS/eip-3326)
 
-Currently, two official plugins are available:
+![Screenshot 2024-01-05 120342](https://github.com/abhu-A-J/web3-by-example/assets/49617450/176c5c00-f830-4443-a53d-2b7d2f4428f1)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-	// other rules...
-	parserOptions: {
-		ecmaVersion: 'latest',
-		sourceType: 'module',
-		project: ['./tsconfig.json', './tsconfig.node.json'],
-		tsconfigRootDir: __dirname
-	}
-};
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+![Screenshot 2024-01-05 120400](https://github.com/abhu-A-J/web3-by-example/assets/49617450/21cd8e7d-a3c0-48fd-8d7a-54f5504ae94b)
