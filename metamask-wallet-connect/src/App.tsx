@@ -46,7 +46,7 @@ function App() {
 		viemConnectWalletMutation.mutate();
 	}
 
-	async function getBalance() {
+	async function getBalanceUsingViem() {
 		if (connectedAddress) {
 			accountDetailsMutation.mutate({ address: connectedAddress });
 		}
@@ -67,7 +67,7 @@ function App() {
 
 						<button
 							className="rounded-md bg-cyan-500 px-2 py-[8px] text-white"
-							onClick={getBalance}
+							onClick={getBalanceUsingViem}
 							disabled={accountDetailsMutation.isPending}
 						>
 							{accountDetailsMutation.isPending ? 'Getting balance' : 'Get balance'}
