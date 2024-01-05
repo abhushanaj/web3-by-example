@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { SwitchChainParameters, createPublicClient, createWalletClient, custom, formatEther } from 'viem';
 
-import { mainnet, sepolia, goerli, linea, hardhat } from 'viem/chains';
+import { mainnet, sepolia, goerli, hardhat } from 'viem/chains';
 
 import Footer from '@/components/footer';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -19,10 +19,6 @@ const chainSelectionOptions = [
 	{
 		name: goerli.name,
 		chainId: goerli.id
-	},
-	{
-		name: linea.name,
-		chainId: linea.id
 	},
 	{
 		name: hardhat.name,
@@ -54,18 +50,6 @@ function App() {
 		queryFn: () => publicClient.getChainId(),
 		staleTime: Infinity
 	});
-
-	useEffect(() => {
-		if (chainIdData) {
-			const doesChainExists = chainSelectionOptions.find((c) => c.chainId == chainIdData);
-
-			if (!doesChainExists) {
-				setSelectedChainId(null);
-			} else {
-				setSelectedChainId(doesChainExists.chainId);
-			}
-		}
-	}, [chainIdData]);
 
 	const {
 		mutate: getBalance,
@@ -115,17 +99,45 @@ function App() {
 		}
 	}
 
+	useEffect(() => {
+		if (chainIdData) {
+			const doesChainExists = chainSelectionOptions.find((c) => c.chainId == chainIdData);
+
+			if (!doesChainExists) {
+				setSelectedChainId(null);
+			} else {
+				setSelectedChainId(doesChainExists.chainId);
+			}
+		}
+	}, [chainIdData]);
+
+	useEffect(() => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const ethereumProvider = (window as any).ethereum;
+
+		// Metamask wallet suggest to simply reload the window on chainChanged (but we will simply refetch our query)
+		async function chainChangedCb() {
+			console.log('This is called');
+			await refetchSelectedChainId();
+		}
+		ethereumProvider.on('chainChanged', chainChangedCb);
+
+		return () => {
+			ethereumProvider.removeListener('chainChanged', chainChangedCb);
+		};
+	}, [refetchSelectedChainId]);
+
 	return (
 		<>
 			<main className="flex flex-col items-center justify-center">
 				<h1 className="mb-6 text-3xl font-bold text-neutral-900">Multi Chain Switch and Connect 😇</h1>
 
-				{chainIdLoading && <p className="mb-2 text-neutral-950">Getting chain id....</p>}
+				<p className="mb-2 text-neutral-950">Switch chain from below 👇</p>
 
 				<select
 					name="selectedChain"
 					id="chainSelection"
-					value={selectedChainId || '1'}
+					value={selectedChainId?.toString()}
 					disabled={selectedChainId === null || chainIdLoading}
 					className="text-neutral-95 cursor-pointer rounded-md border border-neutral-200 bg-neutral-100 px-4 py-2 hover:bg-neutral-200"
 					onChange={handleChainSwitch}
@@ -137,8 +149,15 @@ function App() {
 					))}
 				</select>
 
+				{chainIdLoading && <p className="mb-2 text-neutral-950">Getting chain id....</p>}
+
+				{selectedChainId === null && (
+					<p className="mb-2 text-red-500">
+						You have selected a chain that we don't support yet. Kindly switch the chain from wallet
+					</p>
+				)}
+
 				<div className="my-6 text-center">
-					{!isPending && <p className="mb-2 text-neutral-950">Switch chain from above 👆</p>}
 					{isPending && <p className="mb-2 text-neutral-950">Pending...</p>}
 					{!!error && <p className="mb-2 text-red-500">{error.message}</p>}
 				</div>
@@ -146,8 +165,8 @@ function App() {
 				<div className=" flex w-full flex-col items-center border-b border-neutral-200 py-6">
 					<button
 						type="button"
-						className="rounded-md bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
-						disabled={gettingBalancePending}
+						className="rounded-md bg-blue-500 px-2 py-1 text-white hover:bg-blue-600 disabled:bg-neutral-300"
+						disabled={gettingBalancePending || selectedChainId === null}
 						onClick={() => {
 							getBalance();
 						}}
