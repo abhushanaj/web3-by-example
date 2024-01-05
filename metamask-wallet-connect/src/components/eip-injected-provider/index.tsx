@@ -16,8 +16,6 @@ function EipInjectedProviderWalletConnect() {
 	const connectedAddress = ethersConnectWalletMutation?.data?.[0];
 
 	async function connectUsingWindowProvider() {
-		// connect to account means invoking the `eth_requestAccounts` from the EIP 1102: https://eips.ethereum.org/EIPS/eip-1102
-		// Any wallet should confirm to this
 		ethersConnectWalletMutation.mutate();
 	}
 

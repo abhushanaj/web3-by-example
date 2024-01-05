@@ -18,8 +18,6 @@ function ViemMetamaskWalletConnect() {
 	const connectedAddress = viemConnectWalletMutation?.data?.[0];
 
 	async function connectUsingViem() {
-		// connect to account means invoking the `eth_accounts` from the EIP 1102: https://eips.ethereum.org/EIPS/eip-1102
-		// Any wallet should confirm to this
 		viemConnectWalletMutation.mutate();
 	}
 
