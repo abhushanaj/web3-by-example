@@ -1,5 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
-import { ChangeEvent } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { SwitchChainParameters, createPublicClient, createWalletClient, custom, formatEther } from 'viem';
 
 import { mainnet, sepolia, goerli, linea, hardhat } from 'viem/chains';
@@ -43,6 +43,30 @@ const publicClient = createPublicClient({
 function App() {
 	useDocumentTitle('Multi Chain Switch and Connect');
 
+	const [selectedChainId, setSelectedChainId] = useState<number | null>(1);
+
+	const {
+		isLoading: chainIdLoading,
+		data: chainIdData,
+		refetch: refetchSelectedChainId
+	} = useQuery({
+		queryKey: ['chain'],
+		queryFn: () => publicClient.getChainId(),
+		staleTime: Infinity
+	});
+
+	useEffect(() => {
+		if (chainIdData) {
+			const doesChainExists = chainSelectionOptions.find((c) => c.chainId == chainIdData);
+
+			if (!doesChainExists) {
+				setSelectedChainId(null);
+			} else {
+				setSelectedChainId(doesChainExists.chainId);
+			}
+		}
+	}, [chainIdData]);
+
 	const {
 		mutate: getBalance,
 		isPending: gettingBalancePending,
@@ -77,9 +101,17 @@ function App() {
 
 		// calls the wallet_switchEthereumChain
 		if (chainId) {
-			mutate({
-				id: chainId
-			});
+			mutate(
+				{
+					id: chainId
+				},
+				{
+					async onSuccess() {
+						setSelectedChainId(chainId);
+						await refetchSelectedChainId();
+					}
+				}
+			);
 		}
 	}
 
@@ -88,9 +120,13 @@ function App() {
 			<main className="flex flex-col items-center justify-center">
 				<h1 className="mb-6 text-3xl font-bold text-neutral-900">Multi Chain Switch and Connect 😇</h1>
 
+				{chainIdLoading && <p className="mb-2 text-neutral-950">Getting chain id....</p>}
+
 				<select
 					name="selectedChain"
 					id="chainSelection"
+					value={selectedChainId || '1'}
+					disabled={selectedChainId === null || chainIdLoading}
 					className="text-neutral-95 cursor-pointer rounded-md border border-neutral-200 bg-neutral-100 px-4 py-2 hover:bg-neutral-200"
 					onChange={handleChainSwitch}
 				>
